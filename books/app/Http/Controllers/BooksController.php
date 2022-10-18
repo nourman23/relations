@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Books;
-use Illuminate\Contracts\Validation\Validator;
+use App\Models\Authers;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Contracts\Validation\Validator;
 // use UploadedFile;
 
 
@@ -46,6 +47,8 @@ class BooksController extends Controller
     public function store(Request $request)
     {
 
+        // dd($request->input('book_auther'));
+
         $request->validate(
             [
                 'book_title' => 'required',
@@ -63,10 +66,11 @@ class BooksController extends Controller
 
         $image = base64_encode(file_get_contents($request->file('book_image')));
 
-
+        $Auther_id = self::FindAutherId($request->book_auther);
         //new book information
         $book = Books::create([
             'book_title' => $request->input('book_title'),
+            'authers_id' => $Auther_id[0]->id,
             'book_description' => $request->input('book_description'),
             'book_auther' => $request->input('book_auther'),
             'book_image' =>   $image,
@@ -82,6 +86,15 @@ class BooksController extends Controller
         $book->save();
         return redirect('/index');
     }
+
+
+    public function FindAutherId(string $name)
+    {
+        $AutherId = Authers::select('id')->where('name', 'like', '%' . $name . '%')->get();
+
+        return $AutherId;
+    }
+
 
     /**
      * Display the specified resource.

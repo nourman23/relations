@@ -10,8 +10,8 @@ class Books extends Model
 {
     use HasFactory, softDeletes;
     // public $timestamps = false;
-    protected $fillable = ['book_title', 'book_description', 'book_auther', 'book_image'];
-
+    protected $fillable = ['book_title', 'book_description', 'book_auther', 'book_image', 'authers_id'];
+    // protected $guarded = ['authers_id'];
     public function auther()
     {
         // dd($this);

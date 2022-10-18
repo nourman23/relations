@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\AutherController;
 use App\Http\Controllers\AuthersController;
-
+use PharIo\Manifest\AuthorCollection;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,19 +23,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('add', function () {
-    return view('add_books');
-});
+// Route::get('add', function () {
+//     return view('add_books');
+// });
 
-Route::get('test', function () {
-    return "gg";
-});
+Route::get('add', [AuthersController::class, 'create']);
+
+
+// Route::get('test', function () {
+//     return "gg";
+// });
 Route::get('update/{id}', [BooksController::class, 'update'])->name('up');
 
 
 Route::get('/index', [BooksController::class, 'index']);
 
 Route::post('/req', [BooksController::class, 'store'])->name('req');
+
 Route::delete('/delete/{id}', [BooksController::class, 'destroy'])->name('delete');
 Route::put('/put/{id}', [BooksController::class, 'updateBook'])->name('put');
 Route::post('/findBook', [BooksController::class, 'findBook'])->name('Find');

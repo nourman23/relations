@@ -36,6 +36,9 @@ class AuthersController extends Controller
      */
     public function create()
     {
+        $Authers = Authers::all();
+        return view('add_books', ['Authers' => $Authers]);
+        // dd($Authers);
     }
 
     /**
@@ -46,7 +49,7 @@ class AuthersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**

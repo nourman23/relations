@@ -52,11 +52,20 @@ form .btn{
           <label for="exampleInputPassword1" class="form-label">Book Description</label>
           <input name="book_description" type="text" class="form-control" id="exampleInputPassword1">
         </div>
-        <div class="mb-3">
+        {{-- <div class="mb-3">
+
             <label for="exampleInputEmail1" class="form-label">Book author</label>
+
             <input name="book_auther" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
             <div id="emailHelp" class="form-text"></div>
-          </div>
+          </div> --}}
+          <select name="book_auther" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            <option selected disabled>Open this select menu</option>
+                @foreach ($Authers as $auther)
+                    <option  value="{{ $auther->name }}">{{ $auther->name }}</option>
+                @endforeach
+          </select>
+
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Book image </label>
             <input name="book_image" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
