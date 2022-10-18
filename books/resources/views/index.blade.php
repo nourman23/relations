@@ -159,7 +159,7 @@ color: white;
 <div class="BookImg">   <img src="data:image/jpeg;base64,{{$book['book_image']}}" class="card-img" alt="..." ></div>
     <div class="card-body">
       <h4 class="card-title">{{$book['book_title']}}</h4>
-     <p class="card-text">{{$book['book_auther']}}</p>
+     <a href="auther/{{$book['book_auther']}}"><p class="card-text">{{$book['book_auther']}}</p></a>
       <p class="card-text descripSec">{{$book['book_description']}}</p>
       <div class="delUpdBtns">
       {{-- <a href="delete/{{$book['id']}}"  class="btn m-3 delBtn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>Delete</a> --}}

@@ -70,29 +70,32 @@ class BooksController extends Controller
         //new book information
         $book = Books::create([
             'book_title' => $request->input('book_title'),
-            'authers_id' => $Auther_id[0]->id,
+            'authers_id' => $Auther_id,
             'book_description' => $request->input('book_description'),
             'book_auther' => $request->input('book_auther'),
             'book_image' =>   $image,
         ]);
-        // $book = new Books();
 
-        // $book->book_title = $request->book_title;
-        // $book->book_description = $request->book_description;
-        // $book->book_auther = $request->book_auther;
-        // $book->book_image = $newImageName;
 
 
         $book->save();
         return redirect('/index');
     }
 
+    public function showAuther(string $name)
+    {
+        $id = self::FindAutherId($name);
+        $Auther = Authers::find($id);
+        $books = Books::where('authers_id', $id)->get();
+
+        return view("Auther", ['Auther' => $Auther, 'books' => $books]);
+    }
 
     public function FindAutherId(string $name)
     {
         $AutherId = Authers::select('id')->where('name', 'like', '%' . $name . '%')->get();
 
-        return $AutherId;
+        return $AutherId[0]->id;
     }
 
 

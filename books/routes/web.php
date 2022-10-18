@@ -55,3 +55,7 @@ Route::get('sortDown', [BooksController::class, 'sortDown']);
 
 Route::get('/viewBooks', [AuthersController::class, 'show']);
 Route::get('/viewByAuther/{id}', [AuthersController::class, 'index']);
+
+// auther/{{$book['book_auther']}}
+
+Route::get('/auther/{book_auther}', [BooksController::class, 'showAuther']);
