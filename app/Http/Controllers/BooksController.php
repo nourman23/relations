@@ -170,17 +170,10 @@ class BooksController extends Controller
      */
     public function destroy($id)
     {
-        // $book = Books::find($id);
-        // $book->delete();
-        // return redirect('/index');
-
         Books::find($id)->delete();
 
         return back();
     }
-
-
-
 
 
 
