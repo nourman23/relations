@@ -128,9 +128,16 @@ color: white;
             </div>
           </form>
         </div>
-        <a href="/add"><div class="AddBookLinkBtn">ADD BOOK</div></a>
-      </div>
-      
+        @if(Auth::user())
+        <a href="/add"><div class="AddBookLinkBtn">ADD BOOK</div></a> 
+        @else
+        <a href="/login"><div class="AddBookLinkBtn">Login to Add</div></a>
+        @endif
+     
+      @if(Auth::user())
+      <a href="/signout">signout</a>
+      @endif
+    </div>
       @if ($from == 'search')
 <a href="/index" class="back"> Back to index</a>
 @endif

@@ -6,6 +6,13 @@ use App\Models\Books;
 use App\Models\Authers;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use App\Models\User;
+
+// use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Contracts\Validation\Validator;
 // use UploadedFile;
 
@@ -14,6 +21,11 @@ use Illuminate\Contracts\Validation\Validator;
 class BooksController extends Controller
 {
 
+
+    // public function __construct()
+    // {
+    //     $this->middleware('auth', ['except' => ['index', 'viewBook']]);
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -32,9 +44,7 @@ class BooksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -58,12 +68,6 @@ class BooksController extends Controller
             ]
         );
 
-        // $newImageName = time() . '-' . $request->book_title . '.' . $request->book_image->extension();
-
-        // //store the image :
-
-        // $request->book_image->move(public_path('images'), $newImageName);
-
         $image = base64_encode(file_get_contents($request->file('book_image')));
 
         $Auther_id = self::FindAutherId($request->book_auther);
@@ -75,12 +79,11 @@ class BooksController extends Controller
             'book_auther' => $request->input('book_auther'),
             'book_image' =>   $image,
         ]);
-
-
-
         $book->save();
         return redirect('/index');
     }
+
+
 
     public function showAuther(string $name)
     {
@@ -135,22 +138,7 @@ class BooksController extends Controller
         return view('update_books', ['request' => $findBook, 'id' => $id]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        // $book = Books::find($id);
-        // $book->delete();
-        // return redirect('/index');
 
-        Books::find($id)->delete();
-
-        return back();
-    }
 
     public function updateBook(Request $request, $id)
     {
@@ -174,6 +162,29 @@ class BooksController extends Controller
         // dd($book);
         return view('index', ['books' => $book, "from" => "search"]);
     }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        // $book = Books::find($id);
+        // $book->delete();
+        // return redirect('/index');
+
+        Books::find($id)->delete();
+
+        return back();
+    }
+
+
+
+
+
+
+    // the extra mehods
 
     public function Trash()
     {
@@ -182,6 +193,7 @@ class BooksController extends Controller
         // echo "welcome";
         return view('Trash', ['books' => $books]);
     }
+
 
     public function restore($id)
     {
@@ -198,4 +210,112 @@ class BooksController extends Controller
         $sortData = Books::orderBy('updated_at', 'Asc')->get();
         return view('index', ['books' => $sortData, "from" => "sortDown"]);
     }
+
+
+
+    public function customLogin(Request $request)
+    {
+
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        $validateData = $request->only('email', 'password');
+
+
+        $remember_me = $request->has('remember_me') ? true : false;
+
+        if (Auth::attempt($validateData, $remember_me)) {
+            return redirect()->intended('/index');
+        }
+        return redirect('login')->with('failed', 'login details are not valid');
+    }
+
+    public function signOut()
+    {
+        Session::flush();
+        Auth::logout();
+
+        return Redirect('registration');
+    }
+
+
+    //autherization :
+
+    // public function customLogin(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => 'required',
+    //         'password' => 'required',
+    //     ]);
+
+
+    //     $credentials = $request->only('email', 'password');
+    //     if (Auth::attempt($credentials) && GATE::allows('admin')) {
+    //         return redirect()->intended('dashboard')
+    //             ->withSuccess('Signed in');
+    //     } else if (Auth::attempt($credentials) && GATE::denies('admin')) {
+    //         return redirect()->intended('user')
+    //             ->withSuccess('Signed in');
+    //     }
+
+    //     return redirect("login")->withSuccess('Login details are not valid');
+    // }
+
+
+    public function registration()
+    {
+
+        return view('auth.registration');
+    }
+
+    public function customRegistration(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+        ]);
+
+        $data = $request->all();
+        $check = $this->create($data);
+
+        return redirect("index")->withSuccess('have signed-in');
+    }
+
+
+    public function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password'])
+        ]);
+    }
+
+
+    // public function dashboard()
+    // {
+    //     if (Auth::check()) {
+    //         return view('auth.dashboard');
+    //     }
+
+    //     return redirect("login")->withSuccess('are not allowed to access');
+    // }
+
+
+    // public function signOut()
+    // {
+    //     Session::flush();
+    //     Auth::logout();
+
+    //     return Redirect('login');
+    // }
+
+    // public function login()
+    // {
+    //     return view('auth.login');
+    // }
 }

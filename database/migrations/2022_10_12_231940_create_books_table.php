@@ -17,13 +17,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('authers', function (Blueprint $table) {
-            // id, name, nationality, email
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('nationality');
             $table->string('email');
         });
-
+        Schema::create('Admins', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('email');
+            $table->string('password');
+        });
 
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');

@@ -59,3 +59,16 @@ Route::get('/viewByAuther/{id}', [AuthersController::class, 'index']);
 // auther/{{$book['book_auther']}}
 
 Route::get('/auther/{book_auther}', [BooksController::class, 'showAuther']);
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+Route::get('signout', [BooksController::class, 'signOut'])->name('signout');
+
+// //authetication
+// Route::get('dashboard', [BooksController::class, 'dashboard'])->middleware('can:admin');
+// Route::get('login', [BooksController::class, 'login'])->name('login');
+Route::post('custom-login', [BooksController::class, 'customLogin'])->name('login.custom');
+Route::get('registration', [BooksController::class, 'registration'])->name('register-user');
+Route::post('custom-registration', [BooksController::class, 'customRegistration'])->name('register.custom');
+// Route::get('signout', [BooksController::class, 'signOut'])->name('signout');
