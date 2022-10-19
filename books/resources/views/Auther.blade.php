@@ -116,12 +116,12 @@ color: white;
 
 
 </div>
-<div class=" card w-75" style="margin:20px auto;">
-    <h1 class="text-center">Auther Books</h1>
+<div class=" w-75" style="margin:20px auto;">
+    <h1 class="text-center">Auther's Books</h1>
 <div class=" d-flex flex-wrap ">
     @foreach ($books as $book)
     <div id="cardsDiv" class="card m-4" style="width: 19rem;">
-        <img src="images/{{$book['book_image']}}" class="card-img" alt="..." >
+        <img src="data:image/jpeg;base64,{{$book['book_image']}}" class="card-img" alt="..." >
          <div class="card-body">
            <h4 class="card-title">{{$book['book_title']}}</h4>
           <p class="card-text">{{$book['book_auther']}}</p>
