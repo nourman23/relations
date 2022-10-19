@@ -57,7 +57,7 @@ class BooksController extends Controller
     public function store(Request $request)
     {
 
-        // dd($request->input('book_auther'));
+        // dd($request->file('book_image'));
 
         $request->validate(
             [
@@ -68,7 +68,7 @@ class BooksController extends Controller
             ]
         );
 
-        $image = base64_encode(file_get_contents($request->file('book_image')));
+        $image = base64_encode(file_get_contents($request->input('book_image')));
 
         $Auther_id = self::FindAutherId($request->book_auther);
         //new book information
@@ -89,6 +89,7 @@ class BooksController extends Controller
     {
         $id = self::FindAutherId($name);
         $Auther = Authers::find($id);
+
         $books = Books::where('authers_id', $id)->get();
 
         return view("Auther", ['Auther' => $Auther, 'books' => $books]);
@@ -152,6 +153,7 @@ class BooksController extends Controller
         $book->book_auther = $request->book_auther;
         $book->book_image = $image;
         $book->save();
+        // return redirect('/index');
         return redirect('/index', ["books", $book]);
     }
 
@@ -230,7 +232,7 @@ class BooksController extends Controller
         Session::flush();
         Auth::logout();
 
-        return Redirect('registration');
+        return Redirect('login');
     }
 
 

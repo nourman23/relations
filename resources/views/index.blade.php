@@ -50,7 +50,6 @@ display: flex;
 justify-content: space-around;
 }
 .delBtn{
-background-color: #fbb0b5;
 color: white;
 border: none;
 }
@@ -135,7 +134,7 @@ color: white;
         @endif
      
       @if(Auth::user())
-      <a href="/signout">signout</a>
+      <a href="/signout" style="font-size: 25px">Logout</a>
       @endif
     </div>
       @if ($from == 'search')
@@ -166,7 +165,14 @@ color: white;
 <div class="BookImg">   <img src="data:image/jpeg;base64,{{$book['book_image']}}" class="card-img" alt="..." ></div>
     <div class="card-body">
       <h4 class="card-title">{{$book['book_title']}}</h4>
-     <a href="auther/{{$book['book_auther']}}"><p class="card-text">{{$book['book_auther']}}</p></a>
+<a 
+href="auther/{{$book['book_auther']}}" 
+style="color: #ff3d4a;"
+>
+<p 
+class="card-text">
+{{$book['book_auther']}}
+</p></a>
       <p class="card-text descripSec">{{$book['book_description']}}</p>
       <div class="delUpdBtns">
       {{-- <a href="delete/{{$book['id']}}"  class="btn m-3 delBtn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>Delete</a> --}}
@@ -174,7 +180,8 @@ color: white;
       <form method="POST" action="{{ route('delete', $book->id) }}">
         @csrf
         <input name="_method" type="hidden" value="DELETE">
-        <button type="submit" class="btn m-3 delBtn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>Delete</button>
+        <button type="submit" class="btn m-3 delBtn btn-xs btn-danger btn-flat show_confirm" 
+        data-toggle="tooltip" title='Delete'>Delete</button>
     </form>
       <a href="update/{{$book['id']}}" class="btn m-3 updBtn">Update</a></div>
     </div>

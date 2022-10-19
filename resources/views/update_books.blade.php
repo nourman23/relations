@@ -58,7 +58,9 @@ form .btn{
           </div>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Book image </label>
-            <input name="book_image" value="{{$request['book_image']}}" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <input name="book_image" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            
+            {{-- <input name="book_image" value="{{$request['book_image']}}" type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
             <div id="emailHelp" class="form-text"></div>
           </div>
 
