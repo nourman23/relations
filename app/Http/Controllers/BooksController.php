@@ -136,7 +136,10 @@ class BooksController extends Controller
     {
         $findBook = Books::find($id);
         // dd($findBook);
-        return view('update_books', ['request' => $findBook, 'id' => $id]);
+        // $id = self::FindAutherId($findBook->book_auther);
+        $Authers = Authers::all();
+        // dd(Authers::all());
+        return view('update_books', ['request' => $findBook, 'id' => $id, "Authers" => $Authers]);
     }
 
 
@@ -144,17 +147,24 @@ class BooksController extends Controller
     public function updateBook(Request $request, $id)
     {
         # code...
+        // dd($request->file('book_image'));
 
         $image = base64_encode(file_get_contents($request->file('book_image')));
 
+
+
         $book = Books::find($id);
+
+        $Auther_id = self::FindAutherId($request->book_auther);
+
         $book->book_title = $request->book_title;
         $book->book_description = $request->book_description;
         $book->book_auther = $request->book_auther;
+        $book->authers_id = $Auther_id;
         $book->book_image = $image;
         $book->save();
         // return redirect('/index');
-        return redirect('/index', ["books", $book]);
+        return redirect('/index')->with(["books", $book]);
     }
 
     public function findBook(Request $request)

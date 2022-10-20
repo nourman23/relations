@@ -93,7 +93,12 @@ color: white;
     text-align: center;
   margin: 20px;
 }
-
+.BookImg{
+  height: 250px;
+}
+.BookImg img{
+  height: 100%;
+}
 </style>
 </head>
 <body>
@@ -121,7 +126,7 @@ color: white;
 <div class=" d-flex flex-wrap ">
     @foreach ($books as $book)
     <div id="cardsDiv" class="card m-4" style="width: 19rem;">
-        <img src="data:image/jpeg;base64,{{$book['book_image']}}" class="card-img" alt="..." >
+      <div class="BookImg"><img src="data:image/jpeg;base64,{{$book['book_image']}}" class="card-img" alt="..." ></div>
          <div class="card-body">
            <h4 class="card-title">{{$book['book_title']}}</h4>
           <p class="card-text">{{$book['book_auther']}}</p>
